@@ -1,13 +1,19 @@
+import ormConfig from './config/orm-config';
 import { Module } from '@nestjs/common';
+import { HttpModule } from '@nestjs/axios';
+import { ConfigModule } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { OpenWeatherApiService } from './services/open-weather-api.service';
-import { HttpModule } from '@nestjs/axios';
-import { ConfigModule } from '@nestjs/config';
 import { createConfigPropertyProvider } from './utils/create-config-property-provider';
 
 @Module({
-  imports: [ConfigModule.forRoot(), HttpModule],
+  imports: [
+    ConfigModule.forRoot(),
+    TypeOrmModule.forRoot(ormConfig),
+    HttpModule,
+  ],
   controllers: [AppController],
   providers: [
     AppService,
