@@ -1,21 +1,4 @@
-export type WeatherReport = {
-  lat: number;
-  lon: number;
-  timezone: string;
-  timezone_offset: number;
-  current: CurrentWeatherDescription;
-  minutely: MinutelyWeatherDescription[];
-  hourly: HourlyWeatherDescription[];
-  daily: DailyWeatherDescription[];
-  alerts: WeatherAlert[];
-};
-
-export type WeatherCondition = {
-  id: number;
-  main: string;
-  description: string;
-  icon: string;
-};
+import { WeatherCondition } from './weather-condition';
 
 export type CurrentWeatherDescription = {
   dt: number;
@@ -100,3 +83,10 @@ export type WeatherAlert = {
   description: string;
   tags: string[];
 };
+
+export type WeatherData =
+  | CurrentWeatherDescription
+  | DailyWeatherDescription[]
+  | HourlyWeatherDescription[]
+  | MinutelyWeatherDescription[]
+  | WeatherAlert[];

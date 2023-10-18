@@ -5,9 +5,9 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import { catchError, lastValueFrom, map } from 'rxjs';
-import { WeatherReport } from '../models/weather-report.type';
-import { weatherReportParts } from '../models/weather-report-parts.const';
-import { GetWeatherReportParams } from './get-weather-report-params';
+import { WeatherSummary } from '../models/weather-summary';
+import { weatherSummaryParts } from '../models/weather-summary-parts.const';
+import { GetWeatherSummaryParams } from './get-weather-summary-params';
 import { OpenWeatherApiRequestParams } from './open-weather-api.request-params';
 
 @Injectable()
@@ -20,11 +20,11 @@ export class OpenWeatherApiService {
     private readonly apiUrl: string,
   ) {}
 
-  public getWeatherReport(
-    weatherParams: GetWeatherReportParams,
-  ): Promise<WeatherReport> {
+  public getWeatherSummary(
+    weatherParams: GetWeatherSummaryParams,
+  ): Promise<WeatherSummary> {
     const data$ = this.httpService
-      .get<WeatherReport>(this.apiUrl, {
+      .get<WeatherSummary>(this.apiUrl, {
         params: this.createRequestParams(weatherParams),
       })
       .pipe(
@@ -38,9 +38,9 @@ export class OpenWeatherApiService {
   }
 
   private createRequestParams(
-    weatherParams: GetWeatherReportParams,
+    weatherParams: GetWeatherSummaryParams,
   ): OpenWeatherApiRequestParams {
-    const partsToExclude = weatherReportParts
+    const partsToExclude = weatherSummaryParts
       .filter((part) => part !== weatherParams.part)
       .join();
 

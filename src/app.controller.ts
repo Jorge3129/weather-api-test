@@ -1,13 +1,19 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { AppService } from './app.service';
-import { GetWeatherReportQuery } from './dto/get-weather-report-query.dto';
+import { GetWeatherSummaryQuery } from './dto/get-weather-summary-query.dto';
+import { CreateWeatherReportDto } from './dto/create-weather-report.dto';
 
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
-  public getWeatherReport(@Query() query: GetWeatherReportQuery) {
-    return this.appService.getWeatherReport(query);
+  public getWeatherSummary(@Query() query: GetWeatherSummaryQuery) {
+    return this.appService.getWeatherSummary(query);
+  }
+
+  @Post()
+  public createWeatherReport(@Body() createReportDto: CreateWeatherReportDto) {
+    return this.appService.createWeatherReport(createReportDto);
   }
 }

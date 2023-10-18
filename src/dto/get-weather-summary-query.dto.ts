@@ -1,11 +1,11 @@
 import { Transform } from 'class-transformer';
 import { IsIn, IsNumber } from 'class-validator';
 import {
-  WeatherReportPart,
-  weatherReportParts,
-} from '../models/weather-report-parts.const';
+  WeatherSummaryPart,
+  weatherSummaryParts,
+} from '../models/weather-summary-parts.const';
 
-export class GetWeatherReportQuery {
+export class GetWeatherSummaryQuery {
   @Transform(({ value }) => parseFloat(value))
   @IsNumber()
   lat: number;
@@ -14,6 +14,6 @@ export class GetWeatherReportQuery {
   @IsNumber()
   lon: number;
 
-  @IsIn(weatherReportParts)
-  part: WeatherReportPart;
+  @IsIn(weatherSummaryParts)
+  part: WeatherSummaryPart;
 }
