@@ -1,15 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import { WeatherReport } from './models/weather-report.type';
+import { WeatherSummary } from './models/weather-summary';
 import { OpenWeatherApiService } from './services/open-weather-api.service';
-import { GetWeatherReportQuery } from './dto/get-weather-report-query.dto';
+import { GetWeatherSummaryQuery } from './dto/get-weather-summary-query.dto';
 
 @Injectable()
 export class AppService {
   constructor(private readonly openWeatherApi: OpenWeatherApiService) {}
 
-  public async getWeatherReport(
-    query: GetWeatherReportQuery,
-  ): Promise<WeatherReport> {
-    return this.openWeatherApi.getWeatherReport(query);
+  public async getWeatherSummary(
+    query: GetWeatherSummaryQuery,
+  ): Promise<WeatherSummary> {
+    return this.openWeatherApi.getWeatherSummary(query);
   }
 }

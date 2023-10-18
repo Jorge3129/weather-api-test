@@ -1,4 +1,4 @@
-export type WeatherReport = {
+export type WeatherSummary = {
   lat: number;
   lon: number;
   timezone: string;
