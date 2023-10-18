@@ -7,6 +7,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { OpenWeatherApiService } from './services/open-weather-api.service';
 import { createConfigPropertyProvider } from './utils/create-config-property-provider';
+import { WeatherResponseMapperInterceptor } from './interceptors/weather-response-mapper.interceptor';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { createConfigPropertyProvider } from './utils/create-config-property-pro
     OpenWeatherApiService,
     createConfigPropertyProvider('OPEN_WEATHER_API_KEY', ''),
     createConfigPropertyProvider('OPEN_WEATHER_API_URL', ''),
+    WeatherResponseMapperInterceptor,
   ],
 })
 export class AppModule {}
