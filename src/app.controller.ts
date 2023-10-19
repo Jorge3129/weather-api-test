@@ -7,12 +7,14 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { AppService } from './app.service';
-import { GetWeatherSummaryQuery } from './dto/get-weather-summary-query.dto';
+import { GetWeatherDataQuery } from './dto/get-weather-data-query.dto';
 import { CreateWeatherReportDto } from './dto/create-weather-report.dto';
 import { WeatherResponseInterceptor } from './interceptors/weather-response.interceptor';
 import { WeatherReport } from './entity/weather-report.entity';
 import { WeatherDescription } from './models/weather-description';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Weather')
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
@@ -20,7 +22,7 @@ export class AppController {
   @Get()
   @UseInterceptors(WeatherResponseInterceptor)
   public getWeatherData(
-    @Query() query: GetWeatherSummaryQuery,
+    @Query() query: GetWeatherDataQuery,
   ): Promise<WeatherDescription> {
     return this.appService.getWeatherData(query);
   }
