@@ -9,7 +9,7 @@ import {
 import { AppService } from './app.service';
 import { GetWeatherSummaryQuery } from './dto/get-weather-summary-query.dto';
 import { CreateWeatherReportDto } from './dto/create-weather-report.dto';
-import { WeatherResponseMapperInterceptor } from './interceptors/weather-response-mapper.interceptor';
+import { WeatherResponseInterceptor } from './interceptors/weather-response.interceptor';
 import { WeatherReport } from './entity/weather-report.entity';
 import { WeatherDescription } from './models/weather-description';
 
@@ -18,7 +18,7 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
-  @UseInterceptors(WeatherResponseMapperInterceptor)
+  @UseInterceptors(WeatherResponseInterceptor)
   public getWeatherData(
     @Query() query: GetWeatherSummaryQuery,
   ): Promise<WeatherDescription> {

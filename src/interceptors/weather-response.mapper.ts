@@ -1,34 +1,17 @@
-import {
-  CallHandler,
-  ExecutionContext,
-  Injectable,
-  NestInterceptor,
-} from '@nestjs/common';
-import { Observable, map } from 'rxjs';
+import { Injectable } from '@nestjs/common';
+import { WeatherResponseItem } from '../dto/weather-response-item.dto';
+import { WeatherResponse } from '../dto/weather-response.dto';
+import { WeatherDescription } from '../models/weather-description';
 import {
   CurrentWeatherDescription,
   DailyWeatherDescription,
   HourlyWeatherDescription,
 } from '../models/weather-description-types';
 import { pick } from '../utils/pick';
-import { WeatherDescription } from '../models/weather-description';
-import { WeatherResponse } from '../dto/weather-response.dto';
-import { WeatherResponseItem } from '../dto/weather-response-item.dto';
 
 @Injectable()
-export class WeatherResponseMapperInterceptor
-  implements NestInterceptor<WeatherDescription, WeatherResponse>
-{
-  public intercept(
-    _context: ExecutionContext,
-    next: CallHandler<WeatherDescription>,
-  ): Observable<WeatherResponse> {
-    return next
-      .handle()
-      .pipe(map((data: WeatherDescription) => this.transformToResponse(data)));
-  }
-
-  private transformToResponse(data: WeatherDescription): WeatherResponse {
+export class WeatherResponseMapper {
+  public toResponse(data: WeatherDescription): WeatherResponse {
     if ('sunrise' in data) {
       return this.fromCurrentWeather(data);
     }
