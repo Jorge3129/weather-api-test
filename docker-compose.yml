@@ -1,6 +1,21 @@
 version: '3.8'
 
 services:
+  app:
+    build: .
+    container_name: weather-api
+    ports:
+      - '8000:8000'
+    environment:
+      - APP_PORT=8000
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=weather
+      - DB_PASSWORD=weather
+      - DB_NAME=weather
+    depends_on:
+      - postgres
+
   postgres:
     image: postgres:latest
     container_name: postgres
@@ -9,7 +24,7 @@ services:
       POSTGRES_PASSWORD: weather
       POSTGRES_DB: weather
     ports:
-      - '5434:5432'
+      - '5432:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
