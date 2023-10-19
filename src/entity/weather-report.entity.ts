@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { WeatherSummaryPart } from '../models/weather-summary-parts.const';
-import { WeatherData } from '../models/weather-data';
+import { WeatherDescription } from '../models/weather-description';
 
 @Entity()
 export class WeatherReport {
@@ -17,5 +17,5 @@ export class WeatherReport {
   part: WeatherSummaryPart;
 
   @Column({ type: 'jsonb' })
-  data: WeatherData;
+  data: WeatherDescription;
 }
