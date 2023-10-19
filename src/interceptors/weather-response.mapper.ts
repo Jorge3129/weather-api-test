@@ -1,53 +1,17 @@
-import {
-  CallHandler,
-  ExecutionContext,
-  Injectable,
-  NestInterceptor,
-} from '@nestjs/common';
-import { Observable, map } from 'rxjs';
+import { Injectable } from '@nestjs/common';
+import { WeatherResponseItem } from '../dto/weather-response-item.dto';
+import { WeatherResponse } from '../dto/weather-response.dto';
+import { WeatherDescription } from '../models/weather-description';
 import {
   CurrentWeatherDescription,
   DailyWeatherDescription,
   HourlyWeatherDescription,
-  MinutelyWeatherDescription,
-  WeatherAlert,
-  WeatherData,
-} from '../models/weather-data';
+} from '../models/weather-description-types';
 import { pick } from '../utils/pick';
 
-type WeatherDataResponse = {
-  sunrise: number;
-  sunset: number;
-  temp: number;
-  feels_like: number;
-  pressure: number;
-  humidity: number;
-  uvi: number;
-  wind_speed: number;
-};
-
-type WeatherResult =
-  | WeatherDataResponse
-  | (
-      | Partial<WeatherDataResponse>
-      | MinutelyWeatherDescription
-      | WeatherAlert
-    )[];
-
 @Injectable()
-export class WeatherResponseMapperInterceptor
-  implements NestInterceptor<WeatherData, WeatherResult>
-{
-  public intercept(
-    _context: ExecutionContext,
-    next: CallHandler<WeatherData>,
-  ): Observable<WeatherResult> {
-    return next
-      .handle()
-      .pipe(map((data: WeatherData) => this.transformResponse(data)));
-  }
-
-  private transformResponse(data: WeatherData): WeatherResult {
+export class WeatherResponseMapper {
+  public toResponse(data: WeatherDescription): WeatherResponse {
     if ('sunrise' in data) {
       return this.fromCurrentWeather(data);
     }
@@ -67,7 +31,7 @@ export class WeatherResponseMapperInterceptor
 
   private fromCurrentWeather(
     currentWeather: CurrentWeatherDescription,
-  ): WeatherDataResponse {
+  ): WeatherResponseItem {
     return pick(currentWeather, [
       'sunrise',
       'sunset',
@@ -82,7 +46,7 @@ export class WeatherResponseMapperInterceptor
 
   private fromDailyWeather(
     dailyWeather: DailyWeatherDescription,
-  ): WeatherDataResponse {
+  ): WeatherResponseItem {
     return {
       ...pick(dailyWeather, [
         'sunrise',
@@ -99,7 +63,7 @@ export class WeatherResponseMapperInterceptor
 
   private fromHourlyWeather(
     hourlyWeather: HourlyWeatherDescription,
-  ): Partial<WeatherDataResponse> {
+  ): Partial<WeatherResponseItem> {
     return {
       ...pick(hourlyWeather, ['pressure', 'humidity', 'uvi', 'wind_speed']),
     };

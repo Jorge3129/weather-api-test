@@ -75,7 +75,7 @@ export type DailyWeatherDescription = {
   uvi: number;
 };
 
-export type WeatherAlert = {
+export type WeatherAlertDescription = {
   sender_name: string;
   event: string;
   start: number;
@@ -83,10 +83,3 @@ export type WeatherAlert = {
   description: string;
   tags: string[];
 };
-
-export type WeatherData =
-  | CurrentWeatherDescription
-  | DailyWeatherDescription[]
-  | HourlyWeatherDescription[]
-  | MinutelyWeatherDescription[]
-  | WeatherAlert[];

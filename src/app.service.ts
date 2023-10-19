@@ -1,11 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { WeatherSummary } from './models/weather-summary';
 import { OpenWeatherApiService } from './services/open-weather-api.service';
 import { GetWeatherSummaryQuery } from './dto/get-weather-summary-query.dto';
 import { CreateWeatherReportDto } from './dto/create-weather-report.dto';
 import { WeatherReport } from './entity/weather-report.entity';
 import { EntityManager } from 'typeorm';
-import { WeatherData } from './models/weather-data';
+import { WeatherDescription } from './models/weather-description';
 
 @Injectable()
 export class AppService {
@@ -14,15 +13,9 @@ export class AppService {
     private readonly entityManager: EntityManager,
   ) {}
 
-  public async getWeatherSummary(
-    query: GetWeatherSummaryQuery,
-  ): Promise<WeatherSummary> {
-    return this.openWeatherApi.getWeatherSummary(query);
-  }
-
   public async getWeatherData(
     query: GetWeatherSummaryQuery,
-  ): Promise<WeatherData> {
+  ): Promise<WeatherDescription> {
     return this.entityManager
       .findOneByOrFail(WeatherReport, {
         latitude: query.lat,
@@ -35,7 +28,9 @@ export class AppService {
       });
   }
 
-  public async createWeatherReport(dto: CreateWeatherReportDto): Promise<any> {
+  public async createWeatherReport(
+    dto: CreateWeatherReportDto,
+  ): Promise<WeatherReport> {
     const weatherSummary = await this.openWeatherApi.getWeatherSummary({
       lat: dto.lat,
       lon: dto.lon,
