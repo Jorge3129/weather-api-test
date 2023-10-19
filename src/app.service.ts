@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { OpenWeatherApiService } from './services/open-weather-api.service';
-import { GetWeatherSummaryQuery } from './dto/get-weather-summary-query.dto';
+import { GetWeatherDataQuery } from './dto/get-weather-data-query.dto';
 import { CreateWeatherReportDto } from './dto/create-weather-report.dto';
 import { WeatherReport } from './entity/weather-report.entity';
 import { EntityManager } from 'typeorm';
@@ -14,7 +14,7 @@ export class AppService {
   ) {}
 
   public async getWeatherData(
-    query: GetWeatherSummaryQuery,
+    query: GetWeatherDataQuery,
   ): Promise<WeatherDescription> {
     return this.entityManager
       .findOneByOrFail(WeatherReport, {
