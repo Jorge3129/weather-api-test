@@ -3,8 +3,8 @@ import {
   DailyWeatherDescription,
   HourlyWeatherDescription,
   MinutelyWeatherDescription,
-  WeatherAlert,
-} from './weather-data';
+  WeatherAlertDescription,
+} from './weather-description-types';
 
 export type WeatherSummary = {
   lat: number;
@@ -15,5 +15,5 @@ export type WeatherSummary = {
   minutely: MinutelyWeatherDescription[];
   hourly: HourlyWeatherDescription[];
   daily: DailyWeatherDescription[];
-  alerts: WeatherAlert[];
+  alerts: WeatherAlertDescription[];
 };
